@@ -1,6 +1,6 @@
 const COHORT = "2403-ftb-wt-web-pt";
 
-const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}/`;
+const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}/events`;
 
 const state = {
     parties: [],
@@ -18,7 +18,7 @@ const fetchAllParties = async () => {
     }
 };
 
-const createNewParty = async (name, date, time, location, description) => {
+const createNewParty = async (name, dateTime,location, description) => {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
@@ -27,8 +27,7 @@ const createNewParty = async (name, date, time, location, description) => {
             },
             body: JSON.stringify({
                 name,
-                date: new Date(date).toISOString(),
-                time: new Time(time).toISOString(),
+                dateTime: dateTime.toISOString(),
                 location,
                 description,
             }),
@@ -65,9 +64,8 @@ const renderAllParties = () => {
         partyElement.classList.add("party-card");
         partyElement.innerHTML = `
         <h4>${party.name}</h4>
-        <h5>${party.date}</h5>
-        <h6>${party.time}</h6>
-        <h7>${party.location}</h7>
+        <h5>${party.dateTime}</h5>
+        <h6>${party.location}</h7>
         <p>${party.description}</p>
         <button class="delete-button" data-id="${party.id}">Remove</button>
         `;
@@ -94,14 +92,12 @@ const addListenerToForm = () => {
 
         await createNewParty(
             form.name.value,
-            form.date.value,
-            form.time.value,
+            form.dateTime.value,
             form.location.value,
             form.description.value
         );
         form.name.value = "";
-        form.date.value = "";
-        form.time.value = "";
+        form.dateTime.value = "";
         form.location.value = "";
         form.description.value = "";
     });
