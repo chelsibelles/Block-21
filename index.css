@@ -1,0 +1,63 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: rgb(189, 181, 213);
+    color: rebeccapurple;
+  }
+  
+  header {
+    background-color: rebeccapurple;
+    color:rgb(189, 181, 213);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  header h1 {
+    font-size: 2em;
+    font-weight: 400;
+    margin: 0;
+  }
+  
+  #newParty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    margin: 12px auto;
+  }
+  
+  #newParty input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  
+  #newParty textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  
+  #parties-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  .party-card {
+    width: 30%;
+    border: 3px solid rebeccapurple;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rebeccapurple;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
