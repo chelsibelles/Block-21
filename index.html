@@ -1,40 +1,35 @@
 <html>
 <head>
-    <title>Block 21 Workshop:Party Planner</title>
-    <script src = "./index.js" defer></script>
-    <link rel="stylesheet" href="./index.css"></link>
-    
+    <title>Block 21 Workshop: Party Planner</title>
+    <script src="./index.js" defer></script>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
   <header>
     <h1>Party Guide</h1>
   </header>
 
-    <div id="newParty">
-        <form id="new-party-form">
-          <label for="name">
-            Name
-            <input type="text" id="name" name="name" placeholder="Name">
-          </label>
-          <label for="date">
-            Date
-            <input type="date" name="date">
-          </label>
-          <label for="time">
-            Time
-            <input type="time" id="time" name="time">
-          </label>
-          <label for="location">
-            Location
-            <input type="location" id="location" name="location" placeholder="Location">
-          </label>
-          <label for="description">
-            Description
-            <textarea id="description" name="description" placeholder="Description"></textarea>
-          </label>
-          <button type="submit">Create</button>
-        </form>
-      </div>
-      <div id="parties-container"></div> 
+  <div id="newParty">
+    <form id="new-party-form">
+      <label for="name">
+        Name
+        <input type="text" id="name" name="name" placeholder="Name">
+      </label>
+      <label for="dateTime">
+        Date & Time
+        <input type="datetime-local" name="dateTime">
+      </label>
+      <label for="location">
+        Location
+        <input type="text" id="location" name="location" placeholder="Location">
+      </label>
+      <label for="description">
+        Description
+        <textarea id="description" name="description" placeholder="Description"></textarea>
+      </label>
+      <button type="submit">Create Party</button>
+    </form>
+  </div>
+  <div id="parties-container"></div> 
 </body>
 </html>
