@@ -1,4 +1,4 @@
-const COHORT = "2403-ftb-wt-web-pt";
+const COHORT = "2403-ftb-et-web-pt";
 
 const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}/events`;
 
@@ -14,11 +14,11 @@ const fetchAllParties = async () => {
 
         renderAllParties();
     } catch (error) {
-        console.log(error);
+        console.log("Error fetching parties:", error);
     }
 };
 
-const createNewParty = async (name, dateTime,location, description) => {
+const createNewParty = async (name, dateTime, location, description) => {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
@@ -27,27 +27,27 @@ const createNewParty = async (name, dateTime,location, description) => {
             },
             body: JSON.stringify({
                 name,
-                dateTime: dateTime.toISOString(),
+                dateTime: new Date(dateTime).toISOString(),
                 location,
                 description,
             }),
         });
         await fetchAllParties();
     } catch (error) {
-        console.log(error);
+        console.log("Error creating new party:", error);
     }
 };
 
 const removeParty = async (id) => {
     try {
-        await fetch (`{$API_URL}/${id}`, {
+        await fetch(`${API_URL}/${id}`, {
             method: "DELETE",
         });
         await fetchAllParties();
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    } catch (error) {
+        console.log("Error removing party:", error);
+    }
+};
 
 const renderAllParties = () => {
     const partiesContainer = document.getElementById("parties-container");
@@ -59,55 +59,77 @@ const renderAllParties = () => {
     }
     partiesContainer.innerHTML = "";
 
-    partyList.forEach ((party) => {
-        const partyElement =document.createElement("div");
+    partyList.forEach((party) => {
+        const partyElement = document.createElement("div");
         partyElement.classList.add("party-card");
         partyElement.innerHTML = `
-        <h4>${party.name}</h4>
-        <h5>${party.dateTime}</h5>
-        <h6>${party.location}</h7>
-        <p>${party.description}</p>
-        <button class="delete-button" data-id="${party.id}">Remove</button>
+            <h4>${party.name}</h4>
+            <h5>${new Date(party.dateTime).toLocaleString()}</h5>
+            <h6>${party.location}</h6>
+            <p>${party.description}</p>
+            <button class="delete-button" data-id="${party.id}">Remove</button>
         `;
-partiesContainer.appendChild(partyElement);
+        partiesContainer.appendChild(partyElement);
 
-const deleteButton = partyElement.querySelector(".delete-button");
-
-deleteButton.addEventListener("click", (event) => {
-    try {
-        event.preventDefault();
-        removeParty(party.id);
-    } catch (error) {
-        console.log(error);
-    }
-});
+        const deleteButton = partyElement.querySelector(".delete-button");
+        deleteButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+            await removeParty(party.id);
         });
+    });
 };
 
 const addListenerToForm = () => {
     const form = document.querySelector("#new-party-form");
 
+    if (!form) {
+        console.error("Form not found");
+        return;
+    }
+
+    const nameInput = form.querySelector("input[name='name']");
+    const dateTimeInput = form.querySelector("input[name='dateTime']");
+    const locationInput = form.querySelector("input[name='location']");
+    const descriptionInput = form.querySelector("textarea[name='description']");
+
+    console.log("Form elements:", {
+        form,
+        nameInput,
+        dateTimeInput,
+        locationInput,
+        descriptionInput
+    });
+
+    if (!nameInput || !dateTimeInput || !locationInput || !descriptionInput) {
+        console.error("One or more form elements not found");
+        return;
+    }
+
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        await createNewParty(
-            form.name.value,
-            form.dateTime.value,
-            form.location.value,
-            form.description.value
-        );
-        form.name.value = "";
-        form.dateTime.value = "";
-        form.location.value = "";
-        form.description.value = "";
+        try {
+            await createNewParty(
+                nameInput.value,
+                dateTimeInput.value,
+                locationInput.value,
+                descriptionInput.value
+            );
+
+            // Clear form fields after successful submission
+            nameInput.value = "";
+            dateTimeInput.value = "";
+            locationInput.value = "";
+            descriptionInput.value = "";
+        } catch (error) {
+            console.log("Error handling form submission:", error);
+        }
     });
 };
 
 const init = async () => {
-
     await fetchAllParties();
-
     addListenerToForm();
 };
 
-init ();
+init();
